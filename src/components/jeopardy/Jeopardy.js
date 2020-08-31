@@ -10,7 +10,10 @@ class Jeopardy extends Component {
     this.state = {
       data: {},
       score: 0,
-      answer:""
+      answerData:{
+          answer:""
+
+      }
     }
   }
   //get a new random question from the API and add it to the data object in state
@@ -25,6 +28,23 @@ class Jeopardy extends Component {
   componentDidMount() {
     this.getNewQuestion();
   }
+
+  handleChange = (event) => {
+    const answerData = {...this.state.answer};
+    answerData[event.target.answer] = event.target.value;
+
+    this.setState({ answerData });
+}
+
+handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.setState({
+        submitted: true
+    });
+}
+
+
   //display the results on the screen
   render() {
     let category= "loading";
@@ -37,14 +57,14 @@ class Jeopardy extends Component {
     return (
         
       <div>
-          <strong>Users Score: </strong> {this.state.score} <br/>
+        <strong>Users Score: </strong> {this.state.score} <br/>
         <strong>Question:</strong> {this.state.data.question} <br/>
         <strong>Value:</strong> {this.state.data.value} <br/>
         <strong>Category:</strong> {category}
 
         <form>
             <div>
-                <label htmlFor="answer" >Answer:</label>
+                <label htmlFor="answer" > <strong>Answer:</strong></label>
 
                 <input type="text"
                 name="answer"
